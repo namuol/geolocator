@@ -7,8 +7,12 @@
  *  https://github.com/onury/geolocator
  *  MIT License
  */
-var geolocator = (function () {
 
+(function(name, definition) {
+    if (typeof module != 'undefined') module.exports = definition();
+    else if (typeof define == 'function' && typeof define.amd == 'object') define(definition);
+    else this[name] = definition();
+}('geolocator', function () {
     'use strict';
 
     // ---------------------------------------
@@ -39,7 +43,8 @@ var geolocator = (function () {
         ],
         defaultSourceIndex = 1, // (geoplugin)
         // The index of the current IP source service.
-        sourceIndex;
+        sourceIndex,
+        geolocator;
 
     // ---------------------------------------
     // PRIVATE METHODS
@@ -321,7 +326,7 @@ var geolocator = (function () {
         }
     }
 
-    return {
+    window.geolocator = geolocator = {
 
         // ---------------------------------------
         // PUBLIC PROPERTIES
@@ -364,4 +369,6 @@ var geolocator = (function () {
             return Object.prototype.toString.call(error) === '[object PositionError]';
         }
     };
-}());
+
+    return geolocator;
+}));
